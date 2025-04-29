@@ -1,0 +1,84 @@
+echo "
+This script is meant to 'jump start' the onboarding process for any new hires to the DLST DIAG team, installing various programs needed for developing our apps.
+It will:
+  1. Install xcode
+  2. Install Homebrew
+  3. Install rbenv
+  4. Install Ruby 3.3.5 and set it as the global version, using rbenv
+  5. Install Rails gem
+  6. Install VSCode
+"
+
+echo "[jumpstart] Install Xcode?"
+read -q answer?"\tEnter 'n' to abort, anything else to continue."
+if [[ "$answer" == Nn ]]; then
+  echo "Skipped Xcode."
+else
+  xcode-select --install
+fi
+
+echo "[jumpstart] Install Homebrew?"
+read "answer?\tEnter 'n' to abort, anything else to continue."
+if [[ "$answer" == Nn ]]; then
+  echo "Skipped Homebrew."
+else
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+fi
+
+echo "[jumpstart] Install rbenv?"
+read "answer?\tEnter 'n' to abort, anything else to continue."
+if [[ "$answer" == Nn ]]; then
+  echo "Skipped rbenv."
+else
+  brew install ruby-build
+  brew install rbenv
+  # initialize rbenv without needing to start a new shell session -- rbenv init writes to your .zshrc config
+  # eval will run the code within the current shell session (prepend the rbenv shims to PATH, basically).
+  # See "rbenv help init" for documentation on why this works.
+  eval "$(rbenv init -)"
+  echo "Installing Ruby 3.3 :"
+fi
+
+echo "[jumpstart] Install Ruby 3.3.5 with rbenv and set it as the global ruby version?"
+if [[ "$answer" == Nn ]]; then
+  echo "Skipped rbenv."
+else
+  echo "This will take around 10-15 minutes..."
+  rbenv install 3.3.5
+
+  echo "[jumpstart] Setting Ruby 3.3.5 as the global ruby version.
+You can change this later with rbenv!"
+fi
+
+echo "[jumpstart] Installing Rails gem"
+if [[ "$answer" == Nn ]]; then
+  echo "Skipped rbenv."
+else
+  gem install rails
+fi
+
+echo "[jumpstart] Installing Visual Studio Code"
+if [[ "$answer" == Nn ]]; then
+  echo "Skipped rbenv."
+else
+  brew install visual-studio-code
+  echo "[jumpstart] We recommend installing the Ruby LSP Extension as well:"
+  echo "https://code.visualstudio.com/docs/languages/ruby"
+fi
+
+echo "
+Instalation complete!
+Here is a summary of what we installed:
+  - xcode
+  - homebrew
+  - rbenv
+  - Ruby 3.3.5 (using rbenv)
+  - Ruby on Rails
+  - VSCode IDE
+
+More onboarding tasks:
+  - Create SSH key and get access to cul servers
+  - Add SSH key to github account 
+  - Get access to projects
+  - Clone repositories
+"
