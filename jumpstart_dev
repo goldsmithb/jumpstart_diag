@@ -1,3 +1,5 @@
+#!/bin/bash
+
 echo "
 This script is meant to 'jump start' the onboarding process for any new hires to the DLST DIAG team, installing various programs needed for developing our apps.
 It will:
