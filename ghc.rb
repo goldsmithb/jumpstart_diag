@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
 
+# frozen_string_literal: true
+
 # ghc is a ruby script meant to help automate the cloning of public Github 
 # repositories owned by Columbia University Libraries that are managed by DIAG.
 
