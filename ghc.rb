@@ -12,7 +12,7 @@ When given 'all' in place of a list of project names, ghc will clone all of the 
 Nota Bene : this script assumes you are a member of the CUL organization on Github and can therefore clone public repositories.
 "
 
-REPO_MAP = {
+REPO_TO_URL = {
   "triclops" => "git@github.com:cul/triclops.git",
   "folio_sync" => "git@github.com:cul/folio_sync.git",
   "folio_api_client" => "git@github.com:cul/folio_api_client.git",
@@ -26,7 +26,7 @@ REPO_MAP = {
 
 def print_repo_list
   puts "The following projects are available for cloning:"
-  REPO_MAP.keys.each do |name|
+  REPO_TO_URL.keys.each do |name|
     puts "\t#{name}"
   end
   puts "Pass one or more names to the `ghc` command to clone a repo."
@@ -35,7 +35,7 @@ end
 ################################################################################
 #############################  SCRIPT  #########################################
 ################################################################################
-dl_map = {}
+dl_list = []
 
 if (ARGV.length == 0)
   puts USAGE
@@ -52,21 +52,23 @@ if ARGV.length == 1
     print_repo_list
     exit! false 
   when "all"
-    dl_map = REPO_MAP
+    dl_list = REPO_TO_URL.keys
   else # A single repository was specified for download
-    dl_map[arg] = REPO_MAP[arg]
+    dl_list.push(arg)
   end
 else # ARGV.length > 1
   # add each to dl list
   ARGV.each do |project_name|
-    dl_map[project_name] = REPO_MAP[project_name]
+    dl_list.push(project_name)
   end
 end
 
-puts "Parsed the options"
-p dl_map
-
 # Spawn a thread to clone each repository concurrently
-dl_map.map do |repo|
-  Thread.new { `git clone #{urls[repo]}` }
+tids = []
+dl_list.map do |repo|
+  tids << Thread.new { `git clone #{REPO_TO_URL[repo]}` }
 end
+
+tids.each { |thr| thr.join }
+
+puts "[ghc] Finished cloning repo(s)!"
