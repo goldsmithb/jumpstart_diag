@@ -34,6 +34,12 @@ def print_repo_list
   puts "Pass one or more names to the `ghc` command to clone a repo."
 end
 
+def handle_bad_arg *args
+  puts "[ghc] Could not match argument with a known github repository name: "
+  args.each { |arg| puts "[ghc]\t#{arg}"}
+  exit! false
+end
+
 ################################################################################
 #############################  SCRIPT  #########################################
 ################################################################################
@@ -56,11 +62,13 @@ if ARGV.length == 1
   when "all"
     dl_list = REPO_TO_URL.keys
   else # A single repository was specified for download
+    handle_bad_arg unless REPO_TO_URL.key? arg
     dl_list.push(arg)
   end
 else # ARGV.length > 1
   # add each to dl list
   ARGV.each do |project_name|
+    handle_bad_arg unless REPO_TO_URL.key? project_name 
     dl_list.push(project_name)
   end
 end
