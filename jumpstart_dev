@@ -3,7 +3,7 @@
 echo "
 This script is meant to 'jump start' the onboarding process for any new hires to the DLST DIAG team, installing various programs needed for developing our apps.
 It will:
-  1. Install xcode
+  1. Install xcode command line tools
   2. Install Homebrew
   3. Install rbenv
   4. Install Ruby 3.3.5 and set it as the global version, using rbenv
@@ -11,7 +11,7 @@ It will:
   6. Install VSCode
 "
 
-echo "[jumpstart] Install Xcode?"
+echo "[jumpstart] Install Xcode tools (will install git, clang, gcc, and other useful software)?"
 vared -p "[jumpstart] Enter 'n' to abort, anything else to continue: " -c answer
 if [[ "$answer" == [Nn] ]]; then
   echo "[jumpstart] Skipped Xcode."
