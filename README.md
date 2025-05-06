@@ -13,7 +13,7 @@ jumpstart_dev
 **Description:** Installs software related to developing our Rails Apps.
 
 **What it does:**
-  1. Install xcode
+  1. Install xcode command line tools
   2. Install Homebrew
   3. Install rbenv
   4. Install Ruby 3.3.5 and set it as the global version, using rbenv
